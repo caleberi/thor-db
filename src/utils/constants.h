@@ -3,6 +3,7 @@
 
 #include "../input_buffer.h"
 #include <stdint.h>
+#include <stdbool.h>
 #ifndef TERMINATE_CMD
 #define TERMINATE_CMD ".quit"
 #endif
@@ -69,8 +70,17 @@ typedef struct
     Pager* pager;
 } Table;
 
+typedef struct {
+    Table* table;
+    uint32_t row_num;
+    // Indicates a position one past the last element
+    bool end_of_table; 
+} Cursor;
+
 Table *db_open(const char* );
 Pager* pager_open(const char* );
+Cursor* table_start(Table* );
+Cursor* table_end(Table* );
 void* get_page(Pager* ,uint32_t );
 void free_table(Table *);
 ExecuteResult execute_statement(Statement *, Table *);
@@ -81,7 +91,8 @@ MetaCommandResult do_meta_command(InputBuffer *,Table* );
 void print_row(Row *row);
 void serialize_row(Row *, void *);
 void deserialize_row(void *, Row *);
-void *row_slot(Table *, uint32_t row_num);
+void* cursor_value(Cursor* );
+void advance_cursor(Cursor* );
 
 void pager_flush(Pager* , uint32_t , uint32_t );
 
