@@ -1,0 +1,1 @@
+gcc src/main.c src/utils/stream.c src/input_buffer.c src/utils/constant.c -o build/thor.exe

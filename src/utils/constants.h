@@ -20,10 +20,9 @@
 typedef struct
 {
     uint32_t id;
-    char username[COLUMN_USERNAME_SIZE];
-    char email[COLUMN_EMAIL_SIZE];
+    char username[COLUMN_USERNAME_SIZE + 1];
+    char email[COLUMN_EMAIL_SIZE + 1];
 } Row;
-
 
 typedef enum
 {
@@ -34,8 +33,11 @@ typedef enum
 typedef enum
 {
     PREPARE_SUCCESS,
-    PREPARE_UNRECOGNIZED_STATEMENT,
-    PREPARE_SYNTAX_ERROR
+    PREPARE_NEGATIVE_ID,
+    PREPARE_STRING_TOO_LONG,
+    PREPARE_SYNTAX_ERROR,
+    PREPARE_UNRECOGNIZED_STATEMENT
+
 } PrepareResult;
 
 typedef enum
@@ -68,6 +70,7 @@ ExecuteResult execute_statement(Statement *, Table *);
 ExecuteResult execute_insert(Statement *, Table *);
 ExecuteResult execute_select(Statement *, Table *);
 PrepareResult prepare_statement(InputBuffer *, Statement *);
+PrepareResult prepare_insert(InputBuffer *, Statement *);
 MetaCommandResult do_meta_command(InputBuffer *);
 void print_row(Row *row);
 void serialize_row(Row *, void *);
