@@ -56,22 +56,33 @@ typedef struct
     StatementType type;
 } Statement;
 
+
+typedef struct {
+    int file_descriptor;
+    u_int32_t file_length;
+    void* pages[TABLE_MAX_PAGES];
+} Pager;
+
 typedef struct
 {
     uint32_t num_rows;
-    void *pages[TABLE_MAX_PAGES];
+    Pager* pager;
 } Table;
 
-Table *new_table();
+Table *db_open(const char* );
+Pager* pager_open(const char* );
+void* get_page(Pager* ,uint32_t );
 void free_table(Table *);
 ExecuteResult execute_statement(Statement *, Table *);
 ExecuteResult execute_insert(Statement *, Table *);
 ExecuteResult execute_select(Statement *, Table *);
 PrepareResult prepare_statement(InputBuffer *, Statement *);
-MetaCommandResult do_meta_command(InputBuffer *);
+MetaCommandResult do_meta_command(InputBuffer *,Table* );
 void print_row(Row *row);
 void serialize_row(Row *, void *);
 void deserialize_row(void *, Row *);
 void *row_slot(Table *, uint32_t row_num);
+
+void pager_flush(Pager* , uint32_t , uint32_t );
 
 #endif //CONSTANTS_H_
