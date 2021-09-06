@@ -60,20 +60,22 @@ typedef struct
 
 typedef struct {
     int file_descriptor;
-    u_int32_t file_length;
+    uint32_t file_length;
+    uint32_t  num_pages;
     void* pages[TABLE_MAX_PAGES];
 } Pager;
 
 typedef struct
 {
-    uint32_t num_rows;
+    uint32_t root_page_num;
     Pager* pager;
+
 } Table;
 
 typedef struct {
     Table* table;
-    uint32_t row_num;
-    // Indicates a position one past the last element
+    uint32_t page_num;
+    uint32_t cell_num;
     bool end_of_table; 
 } Cursor;
 
@@ -94,6 +96,18 @@ void deserialize_row(void *, Row *);
 void* cursor_value(Cursor* );
 void advance_cursor(Cursor* );
 
-void pager_flush(Pager* , uint32_t , uint32_t );
+void pager_flush(Pager* , uint32_t );
+
+
+const uint32_t ID_SIZE = size_of_attribute(Row, id);
+const uint32_t USERNAME_SIZE = size_of_attribute(Row, username);
+const uint32_t EMAIL_SIZE = size_of_attribute(Row, email);
+const uint32_t ID_OFFSET = 0;
+const uint32_t USERNAME_OFFSET = ID_OFFSET + ID_SIZE;
+const uint32_t EMAIL_OFFSET = USERNAME_OFFSET + USERNAME_SIZE;
+const uint32_t ROW_SIZE = ID_SIZE + USERNAME_SIZE + EMAIL_SIZE;
+
+const uint32_t PAGE_SIZE = 4096;
+
 
 #endif //CONSTANTS_H_
