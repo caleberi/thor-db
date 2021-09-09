@@ -39,7 +39,7 @@ const uint32_t LEAF_NODE_MAX_CELLS = LEAF_NODE_SPACE_FOR_CELLS / LEAF_NODE_CELL_
 
 uint32_t* leaf_node_num_cells(void* node)
 {
-    return (uint32_t*) (node + LEAF_NODE_VALUE_OFFSET);
+    return (node + LEAF_NODE_VALUE_OFFSET);
 }
 
 void* leaf_node_cell(void* node,uint32_t cell_num)
@@ -47,7 +47,7 @@ void* leaf_node_cell(void* node,uint32_t cell_num)
     return node + LEAF_NODE_HEADER_SIZE + cell_num * LEAF_NODE_CELL_SIZE ;
 }
 
-void* leaf_node_key(void* node,uint32_t cell_num)
+uint32_t* leaf_node_key(void* node,uint32_t cell_num)
 {
     return leaf_node_cell(node,cell_num);
 }
