@@ -95,7 +95,7 @@ void serialize_row(Row *, void *);
 void deserialize_row(void *, Row *);
 void* cursor_value(Cursor* );
 void advance_cursor(Cursor* );
-
+void leaf_node_insert(Cursor* ,uint32_t , Row* );
 void pager_flush(Pager* , uint32_t );
 
 
