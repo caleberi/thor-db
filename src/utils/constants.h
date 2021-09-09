@@ -48,7 +48,9 @@ typedef enum
 typedef enum
 {
     EXECUTE_SUCCESS,
+    EXECUTE_DUPLICATE_KEY,
     EXECUTE_TABLE_FULL
+
 } ExecuteResult;
 
 typedef struct
@@ -82,7 +84,8 @@ typedef struct {
 Table *db_open(const char* );
 Pager* pager_open(const char* );
 Cursor* table_start(Table* );
-Cursor* table_end(Table* );
+Cursor* table_find(Table* ,uint32_t);
+Cursor* leaf_node_find(Table* , uint32_t , uint32_t );
 void* get_page(Pager* ,uint32_t );
 void free_table(Table *);
 ExecuteResult execute_statement(Statement *, Table *);

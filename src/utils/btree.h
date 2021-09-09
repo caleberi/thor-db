@@ -57,6 +57,9 @@ void* leaf_node_value(void* node,uint32_t cell_num)
     return leaf_node_cell(node,cell_num)  + LEAF_NODE_KEY_SIZE;
 }
 
-void initialize_leaf_node(void* node) { *leaf_node_num_cells(node) = 0; }
+void initialize_leaf_node(void* node) {
+    set_node_type(node, NODE_LEAF);
+    *leaf_node_num_cells(node) = 0;
+}
 
 #endif // BTREE_H
