@@ -93,6 +93,8 @@ ExecuteResult execute_insert(Statement *, Table *);
 ExecuteResult execute_select(Statement *, Table *);
 PrepareResult prepare_statement(InputBuffer *, Statement *);
 MetaCommandResult do_meta_command(InputBuffer *,Table* );
+void  leaf_node_split_and_insert(Cursor*,u_int32_t,Row*);
+uint32_t get_unused_page_num(Pager* );
 void print_row(Row *row);
 void serialize_row(Row *, void *);
 void deserialize_row(void *, Row *);
